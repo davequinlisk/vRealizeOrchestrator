@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<workflow xmlns="http://vmware.com/vco/workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://vmware.com/vco/workflow http://vmware.com/vco/workflow/Workflow-v4.xsd" root-name="item1" object-name="workflow:name=generic" id="49af764e-b544-4f7a-a196-98175061cd83" version="0.0.1" api-version="6.0.0" allowed-operations="evf" editor-version="2.0" restartMode="1" resumeFromFailedMode="0">
+  <display-name><![CDATA[Change root password]]></display-name>
+  <position y="50.0" x="100.0"/>
+  <input>
+    <param name="inputProperties" type="Properties"/>
+  </input>
+  <attrib name="vm" type="VC:VirtualMachine" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="vcSdk" type="VC:SdkConnection" read-only="false">
+    <value encoded="n"><![CDATA[dunes://service.dunes.ch/CustomSDKObject?id='vcsa-01a.corp.local'&dunesName='VC:SdkConnection']]></value>
+  </attrib>
+  <attrib name="err_0" type="string" read-only="false">
+    <value encoded="n"><![CDATA[Failed to create cert file. See logs for details.]]></value>
+  </attrib>
+  <attrib name="username" type="string" read-only="false">
+    <value encoded="n"><![CDATA[root]]></value>
+  </attrib>
+  <attrib name="password" type="SecureString" read-only="false">
+    <value encoded="n"><![CDATA[8BT56G4DP77M61Z72N65W31Z21T20961DCQ1188BFANE150433I3877A43R5D0620BL526A3FCW67F65CT7D5CDBAZ60A840FPD51877Y84626F1H232803FKD3C17AAP2C4EF84Z834CEFCUFE70D55I4A4B87EW67810B6U69C6929S19B4760KEF251D5JE3A223O732A11L6F37D2AL]]></value>
+  </attrib>
+  <attrib name="result" type="number" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <attrib name="programPath" type="string" read-only="false">
+    <value encoded="n"><![CDATA[/bin/echo]]></value>
+  </attrib>
+  <attrib name="arguments" type="string" read-only="false">
+    <value encoded="n"><![CDATA[]]></value>
+  </attrib>
+  <workflow-item name="item0" type="end" end-mode="0">
+    <position y="50.0" x="580.0"/>
+  </workflow-item>
+  <workflow-item name="item1" out-name="item5" throw-bind-name="err_0" type="task">
+    <display-name><![CDATA[Parse payload]]></display-name>
+    <script encoded="false"><![CDATA[resourceName = inputProperties.resourceNames[0];
+var newPassword = inputProperties.customProperties.newPassword;
+
+//resourceName = "Cloud_vSphere_Machine_1-mcm624-129442102511";
+//var newPassword = "VMware1!";
+
+var matchingVMs = vcSdk.getAllVirtualMachines(null, "xpath:name='" + resourceName + "'");
+
+if (!matchingVMs || matchingVMs.length === 0) {
+    throw "Failed to find resource vm by name '" + resourceName + "'";
+}
+
+vm = matchingVMs[0];
+
+arguments = '"root:' + newPassword + '" | chpasswd';]]></script>
+    <in-binding>
+      <bind name="inputProperties" type="Properties" export-name="inputProperties"/>
+      <bind name="vcSdk" type="VC:SdkConnection" export-name="vcSdk"/>
+    </in-binding>
+    <out-binding>
+      <bind name="vm" type="VC:VirtualMachine" export-name="vm"/>
+      <bind name="arguments" type="string" export-name="arguments"/>
+    </out-binding>
+    <description><![CDATA[Simple task with custom script capability.]]></description>
+    <position y="60.0" x="180.0"/>
+  </workflow-item>
+  <workflow-item name="item5" out-name="item6" throw-bind-name="err_0" type="link" linked-workflow-id="C98080808080808080808080808080805E80808001322751030482b80adf61e7c">
+    <display-name><![CDATA[Run chpasswd command]]></display-name>
+    <in-binding>
+      <bind name="vmUsername" type="string" export-name="username"/>
+      <bind name="vmPassword" type="SecureString" export-name="password"/>
+      <bind name="vm" type="VC:VirtualMachine" export-name="vm"/>
+      <bind name="interactiveSession" type="boolean" export-name=""/>
+      <bind name="programPath" type="string" export-name="programPath"/>
+      <bind name="arguments" type="string" export-name="arguments"/>
+      <bind name="workingDirectory" type="string" export-name=""/>
+      <bind name="environment" type="Array/string" export-name=""/>
+    </in-binding>
+    <out-binding>
+      <bind name="result" type="number" export-name="result"/>
+    </out-binding>
+    <description><![CDATA[ ]]></description>
+    <position y="60.0" x="300.0"/>
+  </workflow-item>
+  <workflow-item name="item6" out-name="item0" throw-bind-name="err_0" type="task">
+    <display-name><![CDATA[Parse results]]></display-name>
+    <script encoded="false"><![CDATA[System.log(result);]]></script>
+    <in-binding>
+      <bind name="result" type="number" export-name="result"/>
+    </in-binding>
+    <out-binding/>
+    <description><![CDATA[Simple task with custom script capability.]]></description>
+    <position y="60.0" x="420.0"/>
+  </workflow-item>
+  <presentation/>
+</workflow>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dunes-script-module name="findVmByName" result-type="VC:VirtualMachine" api-version="6.0.0" id="33c9c966-caa2-4c3c-a85e-bd8489ff5274" version="0.0.3" allowed-operations="evf" category-name="com.vmware.pso.vc">
+  <description><![CDATA[Find a VM with the given name (case-insensitive) across all configured VC endpoints]]></description>
+  <param n="name" t="string"/>
+  <script encoded="false"><![CDATA[var foundVms = [];
+var vm;
+
+if (name) {
+	foundVms = VcPlugin.getAllVirtualMachines(null,
+		"xpath:matches(translate(name,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '" + name.toLowerCase() + "')");
+	
+	if (!foundVms || foundVms.length == 0) {
+		System.warn('No VMs with name ' + name + ' were found');
+	} else {
+		if (foundVms.length > 1) {
+			System.warn('More than one VM with name ' + name + ' was found');
+		}
+		
+		vm = foundVms[0];
+	}
+}
+
+return vm;]]></script>
+</dunes-script-module>

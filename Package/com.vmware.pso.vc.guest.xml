@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<package>
+<description><![CDATA[]]></description>
+<elm src-category='null'><![CDATA[dunes://service.dunes.ch/Workflow?id='49af764e-b544-4f7a-a196-98175061cd83'&dunesName='Workflow']]></elm>
+<elm src-category='null'><![CDATA[dunes://service.dunes.ch/Workflow?id='C98080808080808080808080808080805E80808001322751030482b80adf61e7c'&dunesName='Workflow']]></elm>
+<elm src-category='null'><![CDATA[dunes://service.dunes.ch/Action?id='33c9c966-caa2-4c3c-a85e-bd8489ff5274'&dunesName='Action'&name='findVmByName'&category='com.vmware.pso.vc']]></elm>
+<elm src-category='null'><![CDATA[dunes://service.dunes.ch/Action?id='3f1f1395-b0f2-4894-9e44-8789ef6ca4a1'&dunesName='Action'&name='executeTransientRESTOperation'&category='com.vmware.pso.rest']]></elm>
+<elm src-category='null'><![CDATA[dunes://service.dunes.ch/Action?id='82c7b0f8-6166-4cf3-8e90-9b46240f0315'&dunesName='Action'&name='getCostCenters'&category='com.vmware.pso.vra.samples']]></elm>
+<used-plugin name='VC' version='6.5.0' />
+</package>

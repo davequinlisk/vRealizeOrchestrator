@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dunes-script-module name="getCostCenters" result-type="Array/string" api-version="6.0.0" id="82c7b0f8-6166-4cf3-8e90-9b46240f0315" version="0.0.1" allowed-operations="evf" category-name="com.vmware.pso.vra.samples">
+  <script encoded="false"><![CDATA[var costCenters = [];
+
+for (var i = 0; i < 10; i++) {
+    costCenters.push("" + Math.floor( Math.random() * 100000 ));
+}
+
+return costCenters;]]></script>
+</dunes-script-module>
